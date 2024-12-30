@@ -1,15 +1,18 @@
 import logo from "../assets/pexels-pixabay-269140.jpg";
+import calendarlogo from "../assets/Black and Red Minimal Calendar with Clock Logo (2).svg"
+import LoginForm from "../components/LoginForm";
+
 
 const LoginPage = () => {
   return (
-    <div
-      className="grid grid-rows-[auto_auto_auto]  w-screen h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url(${logo})` }}
-    >
-      <div className="bg-red-500 h-32">navbar</div>
-      <div className="bg-blue-500 h-auto">login form</div>
-      <div className="bg-green-500 h-32">footer</div>
+   <div className="h-screen w-screen grid grid-cols-2 overflow-hidden">
+    <div >
+      <img className="h-screen w-full object-cover object-center" src={logo} alt="" />
     </div>
+    <div className="h-96 object-center align-item justify-item">
+      <LoginForm></LoginForm>
+      </div>
+   </div>
   );
 };
 
