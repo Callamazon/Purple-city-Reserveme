@@ -6,6 +6,7 @@ import pic1 from "../assets/pexels-daiangan-102129.jpg";
 import pic2 from "../assets/pexels-kaip-996329.jpg";
 import pic3 from "../assets/pexels-pixabay-325876.jpg";
 import pic4 from "../assets/pexels-solliefoto-298863.jpg";
+import { getSession } from "../utils/session";
 
 const DEMO_IMAGES = [pic1, pic2, pic3, pic4];
 
@@ -14,6 +15,10 @@ const FACILITIES = [
   { icon: "parking", label: "Parking Available" },
   // Add more facilities as needed
 ];
+
+// const { username, user_id } = await getSession();
+// console.log(username);
+// console.log(user_id);
 
 export default function LocationDetail() {
   return (

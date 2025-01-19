@@ -6,6 +6,7 @@ import LocationDetail from "./pages/LocationDetail";
 import LocationDetail1 from "./pages/LocationDetail1";
 import ReceiptPage from "./pages/ReceiptPage";
 import { StartPage } from "./pages/test";
+import LandingPage from "./pages/LandingPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/locations",
     element: <ShowCase />,
   },
   {

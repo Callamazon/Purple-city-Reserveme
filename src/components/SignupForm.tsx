@@ -1,34 +1,45 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react'
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { registerUser } from "../utils/auth";
 
 const schema = z.object({
   email: z.string().min(1, { message: "Email is required" }),
-  password: z
-    .string()
-    .min(1, { message: "Password must be at least 8 characters" }),
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z.string().min(8, { message: "8 characters, 1 UpperCase" }),
 });
 type FormData = z.infer<typeof schema>;
 const SignupForm = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
-  const onsubmit = (data: FormData) => {
+  const onsubmit = async (data: FormData) => {
     console.log(data);
     reset();
+    // try {
+    //   await registerUser(data);
+
+    //   alert("Registration successful");
+    // } catch (error: any) {
+    //   if (error.message) {
+    //     alert(error.message);
+    //   }
+    // }
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-md bg-white  p-8">
         <div className="text-left mb-6">
           <h1 className="text-4xl font-bold text-black">Book Your Event Now</h1>
-          <p className="text-sm text-gray-500">Easily reserve your spot for upcoming events.</p>
+          <p className="text-sm text-gray-500">
+            Easily reserve your spot for upcoming events.
+          </p>
         </div>
         <form onSubmit={handleSubmit(onsubmit)}>
           <div className="mb-4">
@@ -47,6 +58,22 @@ const SignupForm = () => {
               </p>
             )}
           </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-black">
+              Username
+            </label>
+            <input
+              {...register("username")}
+              type="text"
+              id="username"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.username && (
+              <p style={{ fontSize: "11px", color: "red", fontWeight: "bold" }}>
+                {errors.username.message}
+              </p>
+            )}
+          </div>
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-black">
@@ -56,6 +83,7 @@ const SignupForm = () => {
               {...register("password")}
               type="password"
               id="password"
+              placeholder="password must be atleast 8 characters"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.password && (
@@ -93,7 +121,7 @@ const SignupForm = () => {
         </p>
       </div>
     </div>
-    );
+  );
 };
 
 export default SignupForm;

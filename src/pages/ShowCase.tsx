@@ -1,56 +1,118 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import pic1 from '../assets/pexels-camcasey-1722183.jpg';
-import pic2 from '../assets/pexels-pixabay-290275.jpg';
+import { LocationCard } from "../components/locationCard";
+import { ShowcaseHeader } from "../components/showcaseHeader";
+import useData from "../hooks/useData";
+import { Space } from "../interfaces/Spaces";
+// import { getSession } from "../utils/session";
 
+// In a real app, this would come from an API
 const locations = [
   {
     id: 1,
-    name: 'Cucrid Auditorium',
-    description: 'Experience the best seating and air conditioning for ultimate comfort.',
-    image: pic2, // Replace with your image path
-    detailPath: '/cucrid-auditorium',
+    name: "Cucrid Auditorium",
+    description:
+      "Experience the best seating and air conditioning for ultimate comfort. Perfect for conferences, performances, and large gatherings.",
+    image: "/placeholder.svg?height=400&width=600",
+    detailPath: "/cucrid-auditorium",
+    category: "Auditorium",
+    price: "From $450/hour",
   },
   {
     id: 2,
-    name: 'HSL Studio',
-    description: 'A studio with the best lighting and sound system for your events.',
-    image: pic1, // Replace with your image path
-    detailPath: '/hsl-studio',
+    name: "HSL Studio",
+    description:
+      "A studio with the best lighting and sound system for your events. Ideal for recordings, photoshoots, and intimate performances.",
+    image: "/placeholder.svg?height=400&width=600",
+    detailPath: "/hsl-studio",
+    category: "Studio",
+    price: "From $200/hour",
+  },
+  {
+    id: 3,
+    name: "Garden Terrace",
+    description:
+      "Beautiful outdoor space with stunning views. Perfect for weddings, parties, and social gatherings.",
+    image: "/placeholder.svg?height=400&width=600",
+    detailPath: "/garden-terrace",
+    category: "Outdoor",
+    price: "From $300/hour",
+  },
+  {
+    id: 4,
+    name: "Conference Center",
+    description:
+      "Modern meeting spaces equipped with the latest technology. Ideal for business meetings and workshops.",
+    image: "/placeholder.svg?height=400&width=600",
+    detailPath: "/conference-center",
+    category: "Business",
+    price: "From $150/hour",
+  },
+  {
+    id: 5,
+    name: "Art Gallery",
+    description:
+      "Elegant space with perfect lighting for exhibitions. Great for art shows, receptions, and cultural events.",
+    image: "/placeholder.svg?height=400&width=600",
+    detailPath: "/art-gallery",
+    category: "Gallery",
+    price: "From $250/hour",
+  },
+  {
+    id: 6,
+    name: "Rooftop Lounge",
+    description:
+      "Spectacular city views with indoor and outdoor areas. Perfect for corporate events and private parties.",
+    image: "/placeholder.svg?height=400&width=600",
+    detailPath: "/rooftop-lounge",
+    category: "Lounge",
+    price: "From $400/hour",
   },
 ];
 
-const ShowCase: React.FC = () => {
-  const navigate = useNavigate();
+// const access_token = await getSession();
+// console.log(access_token);
+
+export default function Showcase() {
+  const { data, isLoading, error } = useData<Space[]>("/spaces/");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
-      {locations.map((location) => (
-        <div
-          key={location.id}
-          className="relative group overflow-hidden"
-        >
-          <img
-            src={location.image}
-            alt={location.name}
-            className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <h2 className="text-3xl text-white font-bold mb-4">
-              {location.name}
-            </h2>
-            <p className="text-white mb-6">{location.description}</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <ShowcaseHeader />
+
+        {/* Filters */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          {[
+            "All",
+            "Auditorium",
+            "Studio",
+            "Outdoor",
+            "Business",
+            "Gallery",
+            "Lounge",
+          ].map((filter) => (
             <button
-              onClick={() => navigate(`/location`)}
-              className="px-6 py-3 bg-rose-600 text-white rounded-lg hover:bg-rose-500 transition"
+              key={filter}
+              className="rounded-full border border-gray-200 bg-white px-4 py-1 text-sm font-medium text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50"
             >
-              View Details
+              {filter}
             </button>
-          </div>
+          ))}
         </div>
-      ))}
+
+        {/* Grid */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {locations?.map((location) => (
+            <LocationCard key={location.id} {...location} />
+          ))}
+        </div>
+
+        {/* Load More */}
+        <div className="mt-12 text-center">
+          <button className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800">
+            Load More Venues
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default ShowCase;
+}
