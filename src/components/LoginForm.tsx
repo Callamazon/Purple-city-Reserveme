@@ -39,7 +39,7 @@ const LoginForm = () => {
         alert(error.message);
       }
     }
-    navigate("/location");
+    navigate("/locations");
   };
   return (
     <>
